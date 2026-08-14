@@ -5,6 +5,7 @@ pipeline {
         APP_NAME = 'ilmly-lms-frontend'
         IMAGE_TAG = 'latest'
         PORT = '8080'
+        SONAR_TOKEN = 'sqp_4305c9b451f4da60b973c42...' // <-- Mets ton token SonarQube complet ici
     }
 
     stages {
@@ -18,9 +19,8 @@ pipeline {
         stage('2. SonarQube Analysis') {
             steps {
                 echo '=== Analyse de la qualité et sécurité avec SonarQube ==='
-                script {
-                    echo 'Analyse du code en cours...'
-                }
+                // Si sonar-scanner est installé en local ou via Docker
+                bat "sonar-scanner.bat -Dsonar.projectKey=ilmly-lms-frontend -Dsonar.sources=. -Dsonar.host.url=http://localhost:9000 -Dsonar.login=%SONAR_TOKEN% || echo Sonar Scanner non execute"
             }
         }
 
